@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.mapper.DispathMapper">
+  <resultMap id="BaseResultMap" type="com.woniu.pojo.Dispath">
+    <result column="empid" jdbcType="INTEGER" property="empid" />
+    <result column="driverid" jdbcType="INTEGER" property="driverid" />
+    <result column="deptid" jdbcType="INTEGER" property="deptid" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="dpid" jdbcType="VARCHAR" property="dpid" />
+    <result column="start" jdbcType="DATE" property="start" />
+    <result column="end" jdbcType="DATE" property="end" />
+    <result column="cause" jdbcType="VARCHAR" property="cause" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="isgone" jdbcType="VARCHAR" property="isgone" />
+   <association property="emp" javaType="com.woniu.pojo.Emp" column="empid" select="com.woniu.mapper.EmpMapper.selectByPrimaryKey"></association> 
+   <association property="driver" javaType="com.woniu.pojo.Driver" column="driverid" select="com.woniu.mapper.DriverMapper.selectByPrimaryKey"></association>
+   <association property="dept" javaType="com.woniu.pojo.Dept" column="deptid" select="com.woniu.mapper.DeptMapper.selectByPrimaryKey"></association>
+   <association property="car" javaType="com.woniu.pojo.Car" column="cid" select="com.woniu.mapper.CarMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    empid, driverid, deptid, cid, dpid, start, end, cause, address, isgone
+  </sql>
+  <select id="selectByExample" parameterType="com.woniu.pojo.DispathExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dispath
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.woniu.pojo.DispathExample">
+    delete from dispath
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.woniu.pojo.Dispath">
+    insert into dispath (empid, driverid, deptid, 
+      cid, dpid, start, end, 
+      cause, address, isgone
+      )
+    values (#{empid,jdbcType=INTEGER}, #{driverid,jdbcType=INTEGER}, #{deptid,jdbcType=INTEGER}, 
+      #{cid,jdbcType=INTEGER}, #{dpid,jdbcType=VARCHAR}, #{start,jdbcType=DATE}, #{end,jdbcType=DATE}, 
+      #{cause,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{isgone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.woniu.pojo.Dispath">
+    insert into dispath
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="empid != null">
+        empid,
+      </if>
+      <if test="driverid != null">
+        driverid,
+      </if>
+      <if test="deptid != null">
+        deptid,
+      </if>
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="dpid != null">
+        dpid,
+      </if>
+      <if test="start != null">
+        start,
+      </if>
+      <if test="end != null">
+        end,
+      </if>
+      <if test="cause != null">
+        cause,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="isgone != null">
+        isgone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="empid != null">
+        #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="driverid != null">
+        #{driverid,jdbcType=INTEGER},
+      </if>
+      <if test="deptid != null">
+        #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="dpid != null">
+        #{dpid,jdbcType=VARCHAR},
+      </if>
+      <if test="start != null">
+        #{start,jdbcType=DATE},
+      </if>
+      <if test="end != null">
+        #{end,jdbcType=DATE},
+      </if>
+      <if test="cause != null">
+        #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="isgone != null">
+        #{isgone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.woniu.pojo.DispathExample" resultType="java.lang.Long">
+    select count(*) from dispath
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dispath
+    <set>
+      <if test="record.empid != null">
+        empid = #{record.empid,jdbcType=INTEGER},
+      </if>
+      <if test="record.driverid != null">
+        driverid = #{record.driverid,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptid != null">
+        deptid = #{record.deptid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cid != null">
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.dpid != null">
+        dpid = #{record.dpid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.start != null">
+        start = #{record.start,jdbcType=DATE},
+      </if>
+      <if test="record.end != null">
+        end = #{record.end,jdbcType=DATE},
+      </if>
+      <if test="record.cause != null">
+        cause = #{record.cause,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isgone != null">
+        isgone = #{record.isgone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dispath
+    set empid = #{record.empid,jdbcType=INTEGER},
+      driverid = #{record.driverid,jdbcType=INTEGER},
+      deptid = #{record.deptid,jdbcType=INTEGER},
+      cid = #{record.cid,jdbcType=INTEGER},
+      dpid = #{record.dpid,jdbcType=VARCHAR},
+      start = #{record.start,jdbcType=DATE},
+      end = #{record.end,jdbcType=DATE},
+      cause = #{record.cause,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      isgone = #{record.isgone,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectOne" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from dispath where dpid =#{dpid}
+  </select>
+  
+</mapper>

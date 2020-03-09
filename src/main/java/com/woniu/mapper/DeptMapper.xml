@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.mapper.DeptMapper">
+  <resultMap id="BaseResultMap" type="com.woniu.pojo.Dept">
+    <id column="deptid" jdbcType="INTEGER" property="deptid" />
+    <result column="dename" jdbcType="VARCHAR" property="dename" />
+    <result column="dephone" jdbcType="VARCHAR" property="dephone" />
+    <result column="destuats" jdbcType="VARCHAR" property="destuats" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    deptid, dename, dephone, destuats
+  </sql>
+  <select id="selectByExample" parameterType="com.woniu.pojo.DeptExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dept
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dept
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dept
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.woniu.pojo.DeptExample">
+    delete from dept
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.woniu.pojo.Dept">
+    insert into dept (deptid, dename, dephone, 
+      destuats)
+    values (#{deptid,jdbcType=INTEGER}, #{dename,jdbcType=VARCHAR}, #{dephone,jdbcType=VARCHAR}, 
+      #{destuats,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.woniu.pojo.Dept">
+    insert into dept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deptid != null">
+        deptid,
+      </if>
+      <if test="dename != null">
+        dename,
+      </if>
+      <if test="dephone != null">
+        dephone,
+      </if>
+      <if test="destuats != null">
+        destuats,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deptid != null">
+        #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="dename != null">
+        #{dename,jdbcType=VARCHAR},
+      </if>
+      <if test="dephone != null">
+        #{dephone,jdbcType=VARCHAR},
+      </if>
+      <if test="destuats != null">
+        #{destuats,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.woniu.pojo.DeptExample" resultType="java.lang.Long">
+    select count(*) from dept
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dept
+    <set>
+      <if test="record.deptid != null">
+        deptid = #{record.deptid,jdbcType=INTEGER},
+      </if>
+      <if test="record.dename != null">
+        dename = #{record.dename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dephone != null">
+        dephone = #{record.dephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.destuats != null">
+        destuats = #{record.destuats,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dept
+    set deptid = #{record.deptid,jdbcType=INTEGER},
+      dename = #{record.dename,jdbcType=VARCHAR},
+      dephone = #{record.dephone,jdbcType=VARCHAR},
+      destuats = #{record.destuats,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.woniu.pojo.Dept">
+    update dept
+    <set>
+      <if test="dename != null">
+        dename = #{dename,jdbcType=VARCHAR},
+      </if>
+      <if test="dephone != null">
+        dephone = #{dephone,jdbcType=VARCHAR},
+      </if>
+      <if test="destuats != null">
+        destuats = #{destuats,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.woniu.pojo.Dept">
+    update dept
+    set dename = #{dename,jdbcType=VARCHAR},
+      dephone = #{dephone,jdbcType=VARCHAR},
+      destuats = #{destuats,jdbcType=VARCHAR}
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </update>
+  <select id="selectAllDept" resultMap="BaseResultMap">
+  	select * from dept
+  </select>
+</mapper>
