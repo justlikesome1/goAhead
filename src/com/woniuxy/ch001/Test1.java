@@ -17,6 +17,7 @@ public class Test1 {
 
 		System.out.println("9999999");
 
+		System.out.println("tang");
 	}
 
 }
