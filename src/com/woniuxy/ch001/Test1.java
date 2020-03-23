@@ -13,6 +13,8 @@ public class Test1 {
 
 		System.out.println("这是最后一次push");
 
+		System.out.println("9999999");
+
 	}
 
 }
